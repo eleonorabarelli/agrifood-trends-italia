@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFood Italia 2030 — Vota le Tendenze</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET & TOKENS === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F7F4EF;
+      --surface:      #FFFFFF;
+      --border:       #E8E2D9;
+      --text:         #1A1A18;
+      --text-muted:   #6B6560;
+      --text-light:   #9C968F;
+
+      --cat-tech:    #2563EB;
+      --cat-demo:    #7C3AED;
+      --cat-soc:     #D97706;
+      --cat-amb:     #16A34A;
+      --cat-norm:    #DC2626;
+
+      --vote-on:     #16A34A;
+      --vote-off:    #E8E2D9;
+
+      --radius-card:  16px;
+      --radius-sm:    8px;
+      --radius-pill:  999px;
+      --shadow:       0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px var(--border);
+      --shadow-hover: 0 10px 28px rgba(0,0,0,0.13), 0 0 0 1px var(--border);
+      --transition:   0.2s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* === HERO === */
+    #hero {
+      background: linear-gradient(135deg, #1a3a1f 0%, #2d5a35 60%, #1a4a2a 100%);
+      color: white;
+      padding: 56px 24px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-pill);
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    #hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    #hero h1 span { color: #86efac; }
+
+    #hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-hero.primary {
+      background: #4ade80;
+      color: #14532d;
+    }
+    .btn-hero.primary:hover { background: #86efac; transform: translateY(-1px); }
+
+    .btn-hero.secondary {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-hero.secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+    .btn-hero.active-view {
+      background: white !important;
+      color: #14532d !important;
+      border-color: transparent !important;
+    }
+
+    .hero-stats {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat { }
+    .stat-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #4ade80;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* === FILTER BAR === */
+    #filter-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .filter-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .filter-inner::-webkit-scrollbar { display: none; }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .filter-pill:hover {
+      border-color: var(--cat-color, var(--text-muted));
+      color: var(--cat-color, var(--text));
+    }
+
+    .filter-pill.active {
+      background: var(--cat-color, var(--text));
+      color: white;
+      border-color: transparent;
+    }
+
+    .filter-pill .pill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .filter-pill.active .pill-dot { background: rgba(255,255,255,0.6); }
+
+    /* === MAIN CONTENT === */
+    #content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    #content.ranking-mode { max-width: 760px; }
+
+    /* === SECTION HEADER === */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .section-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--border);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* === GRID === */
+    .trends-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* === CARD === */
+    .trend-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+      overflow: hidden;
+    }
+
+    .trend-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-accent {
+      height: 4px;
+      background: var(--cat-color);
+    }
+
+    .card-body {
+      padding: 20px 20px 16px;
+      flex: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--cat-bg);
+      color: var(--cat-color);
+      flex-shrink: 0;
+    }
+
+    .card-badge svg { width: 10px; height: 10px; }
+
+    .card-rank {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+    }
+
+    .card-rank.rank-gold   { color: #F59E0B; }
+    .card-rank.rank-silver { color: #9CA3AF; }
+    .card-rank.rank-bronze { color: #B45309; }
+
+    .card-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      padding: 12px 20px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* === VOTE BUTTON === */
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background var(--transition), color var(--transition), transform 0.15s ease;
+      background: var(--vote-off);
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .vote-btn svg { width: 16px; height: 16px; transition: transform 0.15s ease; }
+
+    .vote-btn:hover {
+      background: #d1fae5;
+      color: var(--vote-on);
+    }
+
+    .vote-btn.voted {
+      background: var(--vote-on);
+      color: white;
+    }
+
+    .vote-btn.voted svg { transform: translateY(-1px); }
+
+    .vote-btn.pulse {
+      animation: voteAnim 0.35s ease;
+    }
+
+    @keyframes voteAnim {
+      0%   { transform: scale(1); }
+      35%  { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    .vote-count { font-variant-numeric: tabular-nums; }
+
+    .vote-label { font-size: 12px; color: var(--text-light); }
+
+    /* === RANKING LIST === */
+    .ranking-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .ranking-row {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-left: 4px solid var(--cat-color);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .ranking-row:hover {
+      transform: translateX(3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .rank-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      min-width: 36px;
+      text-align: center;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+
+    .rank-num.rank-gold   { color: #F59E0B; }
+    .rank-num.rank-silver { color: #9CA3AF; }
+    .rank-num.rank-bronze { color: #B45309; }
+
+    .rank-info { flex: 1; min-width: 0; }
+
+    .rank-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rank-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 3px;
+    }
+
+    .rank-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--cat-color);
+      background: var(--cat-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .rank-bar-wrap {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rank-bar {
+      width: 80px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rank-bar-fill {
+      height: 100%;
+      background: var(--cat-color);
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    .rank-votes {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cat-color);
+      font-variant-numeric: tabular-nums;
+      min-width: 42px;
+      text-align: right;
+    }
+
+    /* === EMPTY STATE === */
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg { margin-bottom: 16px; opacity: 0.4; }
+    .empty-state h3 { font-size: 18px; margin-bottom: 8px; }
+
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--cat-amb); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* === FADE ANIMATION === */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .anim-in { animation: fadeUp 0.3s ease both; }
+
+    /* === REDUCED MOTION === */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+      #hero { padding: 36px 16px 32px; }
+      #content { padding: 20px 16px 48px; }
+      #filter-bar { padding: 10px 16px; }
+      .trends-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+      .rank-bar-wrap { display: none; }
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
+      .trends-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      AgriFood Italia 2030
+    </div>
+    <h1>Vota le tendenze che<br><span>plasmeranno il futuro</span></h1>
+    <p>Esplora e classifica i trend tecnologici, demografici, sociali, ambientali e normativi più rilevanti per il settore agroalimentare italiano.</p>
+    <div class="hero-actions">
+      <button class="btn-hero primary active-view" id="btn-grid" onclick="switchView('grid')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Esplora Tendenze
+      </button>
+      <button class="btn-hero secondary" id="btn-ranking" onclick="switchView('ranking')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Classifica
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-value" id="stat-total-votes">0</div>
+        <div class="stat-label">Voti Totali</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">20</div>
+        <div class="stat-label">Tendenze</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Categorie</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- FILTER BAR -->
+<div id="filter-bar">
+  <div class="filter-inner" role="group" aria-label="Filtra per categoria" id="filter-pills">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div id="content">
+    <div class="section-header">
+      <h2 class="section-title" id="section-title">Tutte le Tendenze</h2>
+      <span class="section-count" id="section-count">20 tendenze</span>
+    </div>
+    <div id="app-root" class="anim-in"></div>
+  </div>
+</main>
+
+<footer>
+  Costruito con &hearts; per il futuro dell'agroalimentare italiano &middot;
+  <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const CATEGORIES = {
+  tecnologico: {
+    label: 'Tecnologico',
+    color: '#2563EB',
+    bg: '#EFF6FF',
+    icon: '💡'
+  },
+  demografico: {
+    label: 'Demografico',
+    color: '#7C3AED',
+    bg: '#F5F3FF',
+    icon: '👥'
+  },
+  sociale: {
+    label: 'Sociale',
+    color: '#D97706',
+    bg: '#FFFBEB',
+    icon: '🤝'
+  },
+  ambientale: {
+    label: 'Ambientale',
+    color: '#16A34A',
+    bg: '#F0FDF4',
+    icon: '🌱'
+  },
+  normativo: {
+    label: 'Normativo',
+    color: '#DC2626',
+    bg: '#FEF2F2',
+    icon: '⚖️'
+  }
+};
+
+const TRENDS = [
+  {
+    id: 't01',
+    cat: 'tecnologico',
+    title: 'Agricoltura di Precisione',
+    desc: 'Uso di sensori IoT, droni e analisi satellitare per ottimizzare l\'irrigazione, la concimazione e la gestione dei raccolti campo per campo, riducendo sprechi e aumentando le rese.',
+    seed: 218
+  },
+  {
+    id: 't02',
+    cat: 'tecnologico',
+    title: 'Intelligenza Artificiale nelle Filiere',
+    desc: 'Algoritmi di machine learning per previsione delle rese, rilevamento precoce di malattie delle piante e ottimizzazione della logistica e della supply chain agroalimentare.',
+    seed: 195
+  },
+  {
+    id: 't03',
+    cat: 'tecnologico',
+    title: 'Blockchain per la Tracciabilità',
+    desc: 'Registri distribuiti immutabili che certificano l\'origine, i passaggi di filiera e l\'autenticità dei prodotti DOP e IGP italiani, contrastando le frodi alimentari.',
+    seed: 167
+  },
+  {
+    id: 't04',
+    cat: 'tecnologico',
+    title: 'Automazione e Robotica Agricola',
+    desc: 'Robot per la raccolta selettiva, sistemi autonomi per la potatura e piattaforme automatizzate per la lavorazione in magazzino, che riducono la dipendenza da manodopera stagionale.',
+    seed: 143
+  },
+  {
+    id: 't05',
+    cat: 'tecnologico',
+    title: 'Vertical Farming e Indoor Ag',
+    desc: 'Coltivazione in ambienti controllati multi-piano con illuminazione LED spettrale, consumo idrico ridotto del 95% e produzione indipendente dalle condizioni climatiche esterne.',
+    seed: 121
+  },
+  {
+    id: 'd01',
+    cat: 'demografico',
+    title: 'Invecchiamento della Forza Lavoro Agricola',
+    desc: 'L\'età media degli agricoltori italiani supera i 60 anni. È urgente sviluppare politiche per il ricambio generazionale e incentivi per l\'insediamento di giovani agricoltori.',
+    seed: 189
+  },
+  {
+    id: 'd02',
+    cat: 'demografico',
+    title: 'Ritorno alla Terra dei Giovani',
+    desc: 'Crescita del fenomeno "neo-rurali": under 35 che avviano imprese agricole innovative dopo esperienze urbane, spesso con approcci digitali e orientati alla sostenibilità.',
+    seed: 156
+  },
+  {
+    id: 'd03',
+    cat: 'demografico',
+    title: 'Dipendenza dalla Manodopera Straniera',
+    desc: 'Oltre il 35% dei lavoratori stagionali nel settore è di origine straniera. I cambiamenti nei flussi migratori e nelle normative creano rischi strutturali per la raccolta e la produzione.',
+    seed: 98
+  },
+  {
+    id: 's01',
+    cat: 'sociale',
+    title: 'Dieta Plant-Based e Flessitarismo',
+    desc: 'Crescita a doppia cifra dei consumi di proteine vegetali e sostituti della carne in Italia. Il fenomeno impatta tutta la filiera zootecnica e crea nuove opportunità per i legumi.',
+    seed: 203
+  },
+  {
+    id: 's02',
+    cat: 'sociale',
+    title: 'Turismo Enogastronomico',
+    desc: 'L\'agriturismo e le esperienze legate al cibo diventano leva primaria di valorizzazione del territorio e del Made in Italy, con crescita sostenuta del turista "food-first".',
+    seed: 178
+  },
+  {
+    id: 's03',
+    cat: 'sociale',
+    title: 'Consapevolezza sull\'Origine e km0',
+    desc: 'Consumatori sempre più attenti a km zero, stagionalità e acquisto diretto dal produttore tramite GAS, farmers\' market e CSA (Community Supported Agriculture).',
+    seed: 145
+  },
+  {
+    id: 's04',
+    cat: 'sociale',
+    title: 'Riduzione dello Spreco Alimentare',
+    desc: 'Pressione sociale e normativa per ridurre il 30% di cibo sprecato nella filiera italiana. L\'economia circolare applicata al food genera nuovi modelli di business e packaging.',
+    seed: 134
+  },
+  {
+    id: 'a01',
+    cat: 'ambientale',
+    title: 'Siccità e Stress Idrico',
+    desc: 'Riduzione delle precipitazioni e prolungamento dei periodi siccitosi mettono a rischio interi distretti produttivi (Pianura Padana, Sud Italia), richiedendo una rivoluzione nella gestione idrica.',
+    seed: 232
+  },
+  {
+    id: 'a02',
+    cat: 'ambientale',
+    title: 'Transizione al Biologico',
+    desc: 'Il Piano d\'Azione Nazionale Bio punta al 25% di superficie agricola biologica entro il 2027. La domanda cresce ma anche i costi di certificazione e transizione per gli agricoltori.',
+    seed: 171
+  },
+  {
+    id: 'a03',
+    cat: 'ambientale',
+    title: 'Agroecologia e Rigenerazione del Suolo',
+    desc: 'Pratiche come cover cropping, no-till e rotazioni complesse per ripristinare la biodiversità, il carbonio del suolo e la resilienza degli ecosistemi agricoli italiani.',
+    seed: 142
+  },
+  {
+    id: 'a04',
+    cat: 'ambientale',
+    title: 'Energie Rinnovabili in Agricoltura',
+    desc: 'Agrivoltaico, biogas da scarti zootecnici e comunità energetiche rurali come fonti di reddito complementare per gli agricoltori e leva per l\'indipendenza energetica del settore.',
+    seed: 119
+  },
+  {
+    id: 'n01',
+    cat: 'normativo',
+    title: 'Farm to Fork e Green Deal Europeo',
+    desc: 'La strategia europea ridefinisce obiettivi ambientali e norme di produzione con impatto diretto sui margini degli agricoltori italiani e sui costi di adeguamento della filiera.',
+    seed: 198
+  },
+  {
+    id: 'n02',
+    cat: 'normativo',
+    title: 'Concentrazione della GDO',
+    desc: 'La pressione sui prezzi alla produzione da parte della grande distribuzione organizzata comprime i margini degli agricoltori, spingendo verso modelli alternativi di commercializzazione.',
+    seed: 160
+  },
+  {
+    id: 'n03',
+    cat: 'normativo',
+    title: 'Internazionalizzazione dell\'Agroalimentare',
+    desc: 'L\'export del settore vale 64 miliardi di euro: accordi di libero scambio, Italian sounding e nuovi mercati (Asia, USA) creano opportunità ma anche rischi per le PMI agroalimentari italiane.',
+    seed: 133
+  },
+  {
+    id: 'n04',
+    cat: 'normativo',
+    title: 'Novel Food e Nuove Proteine',
+    desc: 'La regolamentazione UE di novel food — carne coltivata, farine di insetti, alghe, fermentazione di precisione — e il suo impatto competitivo sul settore tradizionale e le abitudini alimentari.',
+    seed: 115
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const STORAGE_KEY = 'agrifood_trends_v1';
+
+let state = {
+  view: 'grid',          // 'grid' | 'ranking'
+  activeCategory: 'all',
+  votes: {},             // { trendId: totalCount }
+  userVotes: {}          // { trendId: true/false }
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state.votes = saved.votes || {};
+      state.userVotes = saved.userVotes || {};
+    }
+  } catch (e) { /* ignore */ }
+
+  // Seed any missing vote counts
+  TRENDS.forEach(t => {
+    if (state.votes[t.id] === undefined) {
+      state.votes[t.id] = t.seed;
+    }
+  });
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      votes: state.votes,
+      userVotes: state.userVotes
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+// ============================================================
+// CATEGORY UTILS
+// ============================================================
+function catStyle(catKey) {
+  const cat = CATEGORIES[catKey] || {};
+  return `--cat-color:${cat.color};--cat-bg:${cat.bg};`;
+}
+
+// ============================================================
+// VOTE HANDLER
+// ============================================================
+function handleVote(trendId) {
+  const wasVoted = !!state.userVotes[trendId];
+  if (wasVoted) {
+    state.userVotes[trendId] = false;
+    state.votes[trendId] = Math.max(0, (state.votes[trendId] || 0) - 1);
+  } else {
+    state.userVotes[trendId] = true;
+    state.votes[trendId] = (state.votes[trendId] || 0) + 1;
+  }
+  saveState();
+  updateStats();
+  updateVoteButton(trendId);
+
+  if (state.view === 'ranking') {
+    // Re-render ranking since order may change
+    renderView();
+  }
+}
+
+function updateVoteButton(trendId) {
+  const btn = document.querySelector(`.vote-btn[data-id="${trendId}"]`);
+  if (!btn) return;
+  const voted = !!state.userVotes[trendId];
+  const count = state.votes[trendId] || 0;
+  btn.classList.toggle('voted', voted);
+  btn.classList.add('pulse');
+  btn.setAttribute('aria-pressed', String(voted));
+  btn.querySelector('.vote-count').textContent = count;
+  btn.addEventListener('animationend', () => btn.classList.remove('pulse'), { once: true });
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  const total = TRENDS.reduce((sum, t) => sum + (state.votes[t.id] || 0), 0);
+  const el = document.getElementById('stat-total-votes');
+  if (el) el.textContent = total.toLocaleString('it-IT');
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderFilterPills() {
+  const container = document.getElementById('filter-pills');
+  if (!container) return;
+
+  const all = [
+    { key: 'all', label: 'Tutte', color: '#1A1A18', bg: '#E8E2D9' },
+    ...Object.entries(CATEGORIES).map(([k, v]) => ({ key: k, label: v.label, color: v.color, bg: v.bg }))
+  ];
+
+  container.innerHTML = all.map(c => {
+    const active = state.activeCategory === c.key;
+    return `<button
+      class="filter-pill${active ? ' active' : ''}"
+      style="--cat-color:${c.color};--cat-bg:${c.bg}"
+      onclick="filterBy('${c.key}')"
+      aria-pressed="${active}"
+    >${c.label}</button>`;
+  }).join('');
+}
+
+function renderView() {
+  const root = document.getElementById('app-root');
+  root.className = 'anim-in';
+  void root.offsetWidth; // reflow to restart animation
+
+  if (state.view === 'ranking') {
+    renderRanking(root);
+  } else {
+    renderGrid(root);
+  }
+
+  updateStats();
+}
+
+function renderGrid(root) {
+  let trends = TRENDS;
+  if (state.activeCategory !== 'all') {
+    trends = trends.filter(t => t.cat === state.activeCategory);
+  }
+
+  const count = trends.length;
+  const sectionTitle = state.activeCategory === 'all'
+    ? 'Tutte le Tendenze'
+    : `${CATEGORIES[state.activeCategory]?.label || state.activeCategory}`;
+
+  document.getElementById('section-title').textContent = sectionTitle;
+  document.getElementById('section-count').textContent = `${count} tendenz${count === 1 ? 'a' : 'e'}`;
+
+  if (count === 0) {
+    root.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9C968F" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <h3>Nessuna tendenza trovata</h3>
+      <p>Prova a selezionare un'altra categoria.</p>
+    </div>`;
+    return;
+  }
+
+  root.innerHTML = `<div class="trends-grid">
+    ${trends.map(t => cardHTML(t)).join('')}
+  </div>`;
+}
+
+function cardHTML(trend) {
+  const cat = CATEGORIES[trend.cat] || {};
+  const voted = !!state.userVotes[trend.id];
+  const votes = state.votes[trend.id] || 0;
+  return `
+  <div class="trend-card" style="${catStyle(trend.cat)}">
+    <div class="card-accent"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <span class="card-badge">${cat.icon || ''} ${cat.label || trend.cat}</span>
+      </div>
+      <div class="card-title">${trend.title}</div>
+      <div class="card-desc">${trend.desc}</div>
+    </div>
+    <div class="card-footer">
+      <button
+        class="vote-btn${voted ? ' voted' : ''}"
+        data-id="${trend.id}"
+        aria-label="Vota per ${trend.title}"
+        aria-pressed="${voted}"
+        onclick="handleVote('${trend.id}')"
+      >
+        <svg viewBox="0 0 24 24" fill="${voted ? 'white' : 'none'}" stroke="currentColor" stroke-width="2.5">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+        <span class="vote-count">${votes}</span>
+        <span class="vote-label">voti</span>
+      </button>
+    </div>
+  </div>`;
+}
+
+function renderRanking(root) {
+  document.getElementById('section-title').textContent = 'Classifica Tendenze';
+
+  const sorted = [...TRENDS].sort((a, b) => (state.votes[b.id] || 0) - (state.votes[a.id] || 0));
+  const maxVotes = state.votes[sorted[0]?.id] || 1;
+
+  document.getElementById('section-count').textContent = `${sorted.length} tendenze`;
+
+  root.innerHTML = `<div class="ranking-list">
+    ${sorted.map((t, i) => rankRowHTML(t, i + 1, maxVotes)).join('')}
+  </div>`;
+}
+
+function rankRowHTML(trend, rank, maxVotes) {
+  const cat = CATEGORIES[trend.cat] || {};
+  const votes = state.votes[trend.id] || 0;
+  const pct = Math.round((votes / maxVotes) * 100);
+  const rankClass = rank === 1 ? 'rank-gold' : rank === 2 ? 'rank-silver' : rank === 3 ? 'rank-bronze' : '';
+
+  return `
+  <div class="ranking-row" style="${catStyle(trend.cat)}">
+    <div class="rank-num ${rankClass}">#${rank}</div>
+    <div class="rank-info">
+      <div class="rank-title">${trend.title}</div>
+      <div class="rank-meta">
+        <span class="rank-badge">${cat.icon || ''} ${cat.label || trend.cat}</span>
+      </div>
+    </div>
+    <div class="rank-bar-wrap">
+      <div class="rank-bar">
+        <div class="rank-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="rank-votes">${votes}</div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function switchView(view) {
+  state.view = view;
+  document.getElementById('filter-bar').style.display = view === 'ranking' ? 'none' : '';
+  document.getElementById('content').className = view === 'ranking' ? 'ranking-mode' : '';
+
+  const btnGrid    = document.getElementById('btn-grid');
+  const btnRanking = document.getElementById('btn-ranking');
+
+  if (view === 'grid') {
+    btnGrid.className = 'btn-hero primary active-view';
+    btnRanking.className = 'btn-hero secondary';
+  } else {
+    btnRanking.className = 'btn-hero primary active-view';
+    btnGrid.className = 'btn-hero secondary';
+  }
+
+  renderView();
+}
+
+function filterBy(category) {
+  state.activeCategory = category;
+  renderFilterPills();
+  renderView();
+}
+
+// ============================================================
+// BOOT
+// ============================================================
+loadState();
+renderFilterPills();
+renderView();
+</script>
+</body>
+</html>
